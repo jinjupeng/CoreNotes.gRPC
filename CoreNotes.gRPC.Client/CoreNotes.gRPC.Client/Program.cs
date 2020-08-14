@@ -13,8 +13,7 @@ namespace CoreNotes.gRPC.Client
     {
         static async Task Main(string[] args)
         {
-            
-
+            // 在根目录下打开命令行，输入：dotnet run 1/2/3/5，即可运行
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new EmployeeService.EmployeeServiceClient(channel);
 
