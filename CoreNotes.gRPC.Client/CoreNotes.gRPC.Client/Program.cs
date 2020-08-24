@@ -6,6 +6,7 @@ using CoreNotes.gRPC.Server.Protos;
 using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Serilog;
 
 namespace CoreNotes.gRPC.Client
 {
@@ -13,6 +14,11 @@ namespace CoreNotes.gRPC.Client
     {
         static async Task Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
             // 在根目录下打开命令行，输入：dotnet run 1/2/3/5，即可运行
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new EmployeeService.EmployeeServiceClient(channel);
@@ -38,6 +44,8 @@ namespace CoreNotes.gRPC.Client
             Console.WriteLine("Press any key to exit");
 
             Console.ReadKey();
+
+            Log.CloseAndFlush();
         }
 
         public static async Task GetByNoAsync(EmployeeService.EmployeeServiceClient client)
